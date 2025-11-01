@@ -10,6 +10,6 @@ namespace VideoGameCatalog.Repository.DbContext
         {
         }
 
-        public DbSet<Game> Games { get; set; }
+        public DbSet<Game> Game { get; set; }
     }
 }

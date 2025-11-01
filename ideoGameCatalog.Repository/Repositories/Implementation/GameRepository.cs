@@ -17,17 +17,17 @@ namespace VideoGameCatalog.Repository.Repositories.Implementation
 
         public async Task<IEnumerable<Game>> GetAllAsync()
         {
-           return await context.Games.ToListAsync().ConfigureAwait(false);
+           return await context.Game.ToListAsync().ConfigureAwait(false);
         }
 
         public async Task<Game?> GetByIdAsync(int id)
         {
-            return await context.Games.FindAsync(id).ConfigureAwait(false);
+            return await context.Game.FindAsync(id).ConfigureAwait(false);
         }
 
         public async Task<Game> AddAsync(Game game)
         {
-            context.Games.Add(game);
+            context.Game.Add(game);
             await context.SaveChangesAsync().ConfigureAwait(false);
             return game;
         }
@@ -43,7 +43,7 @@ namespace VideoGameCatalog.Repository.Repositories.Implementation
             var game = await GetByIdAsync(id);
             if (game != null)
             {
-                context.Games.Remove(game);
+                context.Game.Remove(game);
                 await context.SaveChangesAsync().ConfigureAwait(false);
             }
         }

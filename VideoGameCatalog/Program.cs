@@ -1,4 +1,3 @@
-using System;
 using Microsoft.EntityFrameworkCore;
 using VideoGameCatalog.Business;
 using VideoGameCatalog.Business.Logic;
