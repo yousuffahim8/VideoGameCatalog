@@ -1,15 +1,37 @@
-var builder = WebApplication.CreateBuilder(args);
+using System;
+using Microsoft.EntityFrameworkCore;
+using VideoGameCatalog.Business;
+using VideoGameCatalog.Business.Logic;
+using VideoGameCatalog.Repository.DbContext;
+using VideoGameCatalog.Repository.Repositories.Implementation;
+using VideoGameCatalog.Repository.Repositories.Interfaces;
 
-// Add services to the container.
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+        builder.Services.AddControllers();
+        builder.Services.AddDbContext<AppDbContext>(options =>
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("VideoGameCatalogSqlDbConnectionString")));
 
-var app = builder.Build();
+        builder.Services.AddScoped<IGameRepository, GameRepository>();
+        builder.Services.AddScoped<IGameService, GameService>();
 
-// Configure the HTTP request pipeline.
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
 
-app.UseAuthorization();
+        var app = builder.Build();
 
-app.MapControllers();
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
 
-app.Run();
+        app.MapControllers();
+
+        app.Run();
+    }
+}
