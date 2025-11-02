@@ -34,7 +34,22 @@ namespace VideoGameCatalog.Repository.Repositories.Implementation
 
         public async Task UpdateAsync(Game game)
         {
-            context.Entry(game).State = EntityState.Modified;
+            var existingGame = await context.Game.FindAsync(game.Id).ConfigureAwait(false);
+            if (existingGame == null)
+                return;
+
+            if (existingGame.Title != game.Title)
+                existingGame.Title = game.Title;
+
+            if (existingGame.Genre != game.Genre)
+                existingGame.Genre = game.Genre;
+
+            if (existingGame.Price != game.Price)
+                existingGame.Price = game.Price;
+
+            if (existingGame.ReleaseDate != game.ReleaseDate)
+                existingGame.ReleaseDate = game.ReleaseDate;
+
             await context.SaveChangesAsync().ConfigureAwait(false);
         }
 

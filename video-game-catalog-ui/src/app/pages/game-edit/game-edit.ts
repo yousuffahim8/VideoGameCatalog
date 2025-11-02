@@ -28,7 +28,7 @@ export class GameEdit implements OnInit {
     this.gameForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
       genre: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
-      price: [0, [Validators.required, Validators.min(0), Validators.max(9999.99)]],
+      price: [0, [Validators.required, Validators.min(1), Validators.max(9999.99)]],
       releaseDate: ['', [Validators.required]]
     });
   }
