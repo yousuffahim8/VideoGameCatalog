@@ -1,0 +1,126 @@
+<div class="container">
+  <div class="header">
+    <h1>{{ isEditMode() ? 'Edit Game' : 'Add New Game' }}</h1>
+    <a routerLink="/games" class="btn btn-secondary">
+      <i class="icon-back"></i>
+      Back to Games
+    </a>
+  </div>
+
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Loading game...</p>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error() && !loading()) {
+    <div class="error">
+      <p>{{ error() }}</p>
+      @if (isEditMode()) {
+        <button (click)="loadGame(gameId()!)" class="btn btn-secondary">Try Again</button>
+      }
+    </div>
+  }
+
+  <!-- Form -->
+  @if (!loading() && !error()) {
+    <div class="form-container">
+      <form [formGroup]="gameForm" (ngSubmit)="onSubmit()" novalidate>
+        
+        <!-- Title Field -->
+        <div class="form-group">
+          <label for="title" class="form-label">Title *</label>
+          <input
+            type="text"
+            id="title"
+            formControlName="title"
+            class="form-input"
+            [class.error]="isFieldInvalid('title')"
+            placeholder="Enter game title"
+          />
+          @if (getFieldError('title')) {
+            <div class="field-error">{{ getFieldError('title') }}</div>
+          }
+        </div>
+
+        <!-- Genre Field -->
+        <div class="form-group">
+          <label for="genre" class="form-label">Genre *</label>
+          <input
+            type="text"
+            id="genre"
+            formControlName="genre"
+            class="form-input"
+            [class.error]="isFieldInvalid('genre')"
+            placeholder="e.g., Action, RPG, Strategy"
+          />
+          @if (getFieldError('genre')) {
+            <div class="field-error">{{ getFieldError('genre') }}</div>
+          }
+        </div>
+
+        <!-- Price Field -->
+        <div class="form-group">
+          <label for="price" class="form-label">Price (USD) *</label>
+          <input
+            type="number"
+            id="price"
+            formControlName="price"
+            class="form-input"
+            [class.error]="isFieldInvalid('price')"
+            placeholder="0.00"
+            min="0"
+            max="9999.99"
+            step="0.01"
+          />
+          @if (getFieldError('price')) {
+            <div class="field-error">{{ getFieldError('price') }}</div>
+          }
+        </div>
+
+        <!-- Release Date Field -->
+        <div class="form-group">
+          <label for="releaseDate" class="form-label">Release Date *</label>
+          <input
+            type="date"
+            id="releaseDate"
+            formControlName="releaseDate"
+            class="form-input"
+            [class.error]="isFieldInvalid('releaseDate')"
+          />
+          @if (getFieldError('releaseDate')) {
+            <div class="field-error">{{ getFieldError('releaseDate') }}</div>
+          }
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button
+            type="button"
+            (click)="onCancel()"
+            class="btn btn-secondary"
+            [disabled]="saving()"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="saving() || gameForm.invalid"
+          >
+            @if (saving()) {
+              <div class="btn-spinner"></div>
+              {{ isEditMode() ? 'Updating...' : 'Creating...' }}
+            } @else {
+              {{ isEditMode() ? 'Update Game' : 'Create Game' }}
+            }
+          </button>
+        </div>
+
+      </form>
+    </div>
+  }
+</div>

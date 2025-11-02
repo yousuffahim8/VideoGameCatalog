@@ -1,0 +1,61 @@
+<div class="container">
+  <div class="header">
+    <h1>Video Game Catalog</h1>
+    <a routerLink="/games/new" class="btn btn-primary">
+      <i class="icon-plus"></i>
+      Add New Game
+    </a>
+  </div>
+
+  @if (loading()) {
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Loading games...</p>
+    </div>
+  }
+
+  @if (error() && !loading()) {
+    <div class="error">
+      <p>{{ error() }}</p>
+      <button (click)="loadGames()" class="btn btn-secondary">Try Again</button>
+    </div>
+  }
+
+  @if (!loading() && !error()) {
+    @if (games().length === 0) {
+      <div class="empty-state">
+        <h2>No games found</h2>
+        <p>Start by adding your first game to the catalog.</p>
+        <a routerLink="/games/new" class="btn btn-primary">Add Game</a>
+      </div>
+    } @else {
+      <div class="games-grid">
+        @for (game of games(); track game.id) {
+          <div class="game-card">
+            <div class="game-header">
+              <h3>{{ game.title }}</h3>
+              <div class="game-actions">
+                <a [routerLink]="['/games', game.id]" class="btn btn-small btn-secondary">Edit</a>
+                <button (click)="deleteGame(game.id)" class="btn btn-small btn-danger">Delete</button>
+              </div>
+            </div>
+            <div class="game-details">
+              <div class="detail">
+                <span class="label">Genre:</span>
+                <span class="value">{{ game.genre }}</span>
+              </div>
+              <div class="detail">
+                <span class="label">Price:</span>
+                <span class="value price">{{ formatPrice(game.price) }}</span>
+              </div>
+              <div class="detail">
+                <span class="label">Release Date:</span>
+                <span class="value">{{ formatDate(game.releaseDate) }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

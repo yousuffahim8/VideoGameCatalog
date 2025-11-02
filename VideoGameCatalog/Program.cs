@@ -18,6 +18,17 @@ internal class Program
         builder.Services.AddScoped<IGameRepository, GameRepository>();
         builder.Services.AddScoped<IGameService, GameService>();
 
+        // Add CORS
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAngularApp", policy =>
+            {
+                policy.WithOrigins("http://localhost:4200")
+                      .AllowAnyMethod()
+                      .AllowAnyHeader();
+            });
+        });
+
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
@@ -28,6 +39,9 @@ internal class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
+        // Use CORS
+        app.UseCors("AllowAngularApp");
 
         app.MapControllers();
 
