@@ -31,14 +31,14 @@ namespace VideoGameCatalog.Repository.Tests
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Title, Is.EqualTo("Test"));
-            Assert.That(_context.Games.Count(), Is.EqualTo(1));
+            Assert.That(_context.Game.Count(), Is.EqualTo(1));
         }
 
         [Test]
         public async Task GetAllAsync_ReturnsAllGames()
         {
-            _context.Games.Add(new Game { Title = "Test1", Genre = "Action", Price = 10, ReleaseDate = DateTime.Now });
-            _context.Games.Add(new Game { Title = "Test2", Genre = "RPG", Price = 20, ReleaseDate = DateTime.Now });
+            _context.Game.Add(new Game { Title = "Test1", Genre = "Action", Price = 10, ReleaseDate = DateTime.Now });
+            _context.Game.Add(new Game { Title = "Test2", Genre = "RPG", Price = 20, ReleaseDate = DateTime.Now });
             await _context.SaveChangesAsync();
 
             var result = await _repository.GetAllAsync();
@@ -50,7 +50,7 @@ namespace VideoGameCatalog.Repository.Tests
         public async Task GetByIdAsync_GameExists_ReturnsGame()
         {
             var game = new Game { Title = "Test", Genre = "Action", Price = 10, ReleaseDate = DateTime.Now };
-            _context.Games.Add(game);
+            _context.Game.Add(game);
             await _context.SaveChangesAsync();
 
             var result = await _repository.GetByIdAsync(game.Id);
@@ -71,26 +71,26 @@ namespace VideoGameCatalog.Repository.Tests
         public async Task UpdateAsync_UpdatesGame()
         {
             var game = new Game { Title = "Test", Genre = "Action", Price = 10, ReleaseDate = DateTime.Now };
-            _context.Games.Add(game);
+            _context.Game.Add(game);
             await _context.SaveChangesAsync();
 
             game.Title = "Updated";
             await _repository.UpdateAsync(game);
 
-            var updated = await _context.Games.FindAsync(game.Id);
-            Assert.That(updated.Title, Is.EqualTo("Updated"));
+            var updated = await _context.Game.FindAsync(game.Id);
+            Assert.That(updated!.Title, Is.EqualTo("Updated"));
         }
 
         [Test]
         public async Task DeleteAsync_DeletesGame()
         {
             var game = new Game { Title = "Test", Genre = "Action", Price = 10, ReleaseDate = DateTime.Now };
-            _context.Games.Add(game);
+            _context.Game.Add(game);
             await _context.SaveChangesAsync();
 
             await _repository.DeleteAsync(game.Id);
 
-            var deleted = await _context.Games.FindAsync(game.Id);
+            var deleted = await _context.Game.FindAsync(game.Id);
             Assert.That(deleted, Is.Null);
         }
 
