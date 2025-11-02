@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { provideZonelessChangeDetection } from '@angular/core';
 
 import { GameService } from './game';
 import { Game, CreateGameRequest, UpdateGameRequest } from '../models/game';
@@ -11,7 +12,10 @@ describe('GameService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [GameService]
+      providers: [
+        GameService,
+        provideZonelessChangeDetection()
+      ]
     });
     service = TestBed.inject(GameService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -36,7 +40,7 @@ describe('GameService', () => {
       expect(games).toEqual(mockGames);
     });
 
-    const req = httpMock.expectOne('/api/GamesCatalog');
+    const req = httpMock.expectOne('http://localhost:5058/api/GamesCatalog');
     expect(req.request.method).toBe('GET');
     req.flush(mockGames);
   });
@@ -48,7 +52,7 @@ describe('GameService', () => {
       expect(game).toEqual(mockGame);
     });
 
-    const req = httpMock.expectOne('/api/GamesCatalog/1');
+    const req = httpMock.expectOne('http://localhost:5058/api/GamesCatalog/1');
     expect(req.request.method).toBe('GET');
     req.flush(mockGame);
   });
@@ -61,7 +65,7 @@ describe('GameService', () => {
       expect(game).toEqual(mockGame);
     });
 
-    const req = httpMock.expectOne('/api/GamesCatalog');
+    const req = httpMock.expectOne('http://localhost:5058/api/GamesCatalog');
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(createRequest);
     req.flush(mockGame);
@@ -71,10 +75,10 @@ describe('GameService', () => {
     const updateRequest: UpdateGameRequest = { id: 1, title: 'Updated Game', genre: 'Strategy', price: 29.99, releaseDate: '2023-04-01' };
 
     service.updateGame(1, updateRequest).subscribe(response => {
-      expect(response).toBeUndefined();
+      expect(response).toBeNull();
     });
 
-    const req = httpMock.expectOne('/api/GamesCatalog/1');
+    const req = httpMock.expectOne('http://localhost:5058/api/GamesCatalog/1');
     expect(req.request.method).toBe('PUT');
     expect(req.request.body).toEqual(updateRequest);
     req.flush(null);
@@ -82,10 +86,10 @@ describe('GameService', () => {
 
   it('should delete a game', () => {
     service.deleteGame(1).subscribe(response => {
-      expect(response).toBeUndefined();
+      expect(response).toBeNull();
     });
 
-    const req = httpMock.expectOne('/api/GamesCatalog/1');
+    const req = httpMock.expectOne('http://localhost:5058/api/GamesCatalog/1');
     expect(req.request.method).toBe('DELETE');
     req.flush(null);
   });

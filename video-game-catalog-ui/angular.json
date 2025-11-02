@@ -72,6 +72,7 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
+            "main": "src/test.ts",
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               {
@@ -81,7 +82,8 @@
             ],
             "styles": [
               "src/styles.css"
-            ]
+            ],
+            "karmaConfig": "karma.conf.js"
           }
         }
       }

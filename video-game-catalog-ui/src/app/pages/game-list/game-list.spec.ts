@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideZonelessChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 
 import { GameList } from './game-list';
 
@@ -8,7 +11,12 @@ describe('GameList', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GameList]
+      imports: [GameList],
+      providers: [
+        provideZonelessChangeDetection(),
+        provideRouter([]),
+        provideHttpClient()
+      ]
     })
     .compileComponents();
 
