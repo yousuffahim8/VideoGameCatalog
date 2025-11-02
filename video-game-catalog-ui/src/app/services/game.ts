@@ -3,14 +3,20 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Game, CreateGameRequest, UpdateGameRequest } from '../models/game';
+import { ConfigService } from '../config/config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
-  private readonly apiUrl = 'http://localhost:5058/api/GamesCatalog'; // Adjust port as needed
+  private readonly apiUrl: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService
+  ) {
+    this.apiUrl = this.configService.apiUrl;
+  }
 
   getAllGames(): Observable<Game[]> {
     return this.http.get<Game[]>(this.apiUrl)

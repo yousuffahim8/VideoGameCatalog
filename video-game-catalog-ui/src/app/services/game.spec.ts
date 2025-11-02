@@ -4,21 +4,29 @@ import { provideZonelessChangeDetection } from '@angular/core';
 
 import { GameService } from './game';
 import { Game, CreateGameRequest, UpdateGameRequest } from '../models/game';
+import { ConfigService } from '../config/config.service';
 
 describe('GameService', () => {
   let service: GameService;
   let httpMock: HttpTestingController;
+  let configService: jasmine.SpyObj<ConfigService>;
 
   beforeEach(() => {
+    const configSpy = jasmine.createSpyObj('ConfigService', ['apiUrl'], {
+      apiUrl: 'http://localhost:5058/api/GamesCatalog'
+    });
+
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         GameService,
+        { provide: ConfigService, useValue: configSpy },
         provideZonelessChangeDetection()
       ]
     });
     service = TestBed.inject(GameService);
     httpMock = TestBed.inject(HttpTestingController);
+    configService = TestBed.inject(ConfigService) as jasmine.SpyObj<ConfigService>;
   });
 
   afterEach(() => {

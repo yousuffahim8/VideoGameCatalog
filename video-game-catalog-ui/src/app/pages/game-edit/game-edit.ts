@@ -59,7 +59,6 @@ export class GameEdit implements OnInit {
   }
 
   populateForm(game: Game): void {
-    // Convert date to format expected by HTML date input (YYYY-MM-DD)
     const releaseDate = new Date(game.releaseDate).toISOString().split('T')[0];
     
     this.gameForm.patchValue({
