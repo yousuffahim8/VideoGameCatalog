@@ -13,7 +13,7 @@ internal class Program
 
         builder.Services.AddControllers();
         builder.Services.AddDbContext<AppDbContext>(options =>
-                    options.UseSqlServer(builder.Configuration.GetConnectionString("VideoGameCatalogSqlDbConnectionString")));
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("VideoGameSqlDbConnectionString")));
 
         RegisterServices(builder);
         RegisterRepositories(builder);
