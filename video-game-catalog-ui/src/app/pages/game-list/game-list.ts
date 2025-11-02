@@ -41,7 +41,7 @@ export class GameList implements OnInit {
     if (confirm('Are you sure you want to delete this game?')) {
       this.gameService.deleteGame(id).subscribe({
         next: () => {
-          this.loadGames(); // Refresh the list
+          this.loadGames();
         },
         error: (error) => {
           this.error.set(error);

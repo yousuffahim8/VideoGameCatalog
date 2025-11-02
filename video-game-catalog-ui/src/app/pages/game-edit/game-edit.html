@@ -7,7 +7,6 @@
     </a>
   </div>
 
-  <!-- Loading State -->
   @if (loading()) {
     <div class="loading">
       <div class="spinner"></div>
@@ -15,7 +14,6 @@
     </div>
   }
 
-  <!-- Error State -->
   @if (error() && !loading()) {
     <div class="error">
       <p>{{ error() }}</p>
@@ -25,12 +23,10 @@
     </div>
   }
 
-  <!-- Form -->
   @if (!loading() && !error()) {
     <div class="form-container">
       <form [formGroup]="gameForm" (ngSubmit)="onSubmit()" novalidate>
         
-        <!-- Title Field -->
         <div class="form-group">
           <label for="title" class="form-label">Title *</label>
           <input
@@ -46,7 +42,6 @@
           }
         </div>
 
-        <!-- Genre Field -->
         <div class="form-group">
           <label for="genre" class="form-label">Genre *</label>
           <input
@@ -62,7 +57,6 @@
           }
         </div>
 
-        <!-- Price Field -->
         <div class="form-group">
           <label for="price" class="form-label">Price (USD) *</label>
           <input
@@ -81,7 +75,6 @@
           }
         </div>
 
-        <!-- Release Date Field -->
         <div class="form-group">
           <label for="releaseDate" class="form-label">Release Date *</label>
           <input
