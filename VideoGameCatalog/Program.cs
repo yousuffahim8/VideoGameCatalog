@@ -18,7 +18,6 @@ internal class Program
         RegisterServices(builder);
         RegisterRepositories(builder);
 
-        // Add CORS
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowAngularApp", policy =>
@@ -40,7 +39,6 @@ internal class Program
             app.UseSwaggerUI();
         }
 
-        // Use CORS
         app.UseCors("AllowAngularApp");
 
         app.MapControllers();
