@@ -15,8 +15,8 @@ internal class Program
         builder.Services.AddDbContext<AppDbContext>(options =>
                     options.UseSqlServer(builder.Configuration.GetConnectionString("VideoGameCatalogSqlDbConnectionString")));
 
-        builder.Services.AddScoped<IGameRepository, GameRepository>();
-        builder.Services.AddScoped<IGameService, GameService>();
+        RegisterServices(builder);
+        RegisterRepositories(builder);
 
         // Add CORS
         builder.Services.AddCors(options =>
@@ -46,5 +46,15 @@ internal class Program
         app.MapControllers();
 
         app.Run();
+    }
+
+    private static void RegisterServices(WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<IGameService, GameService>();
+    }
+
+    private static void RegisterRepositories(WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<IGameRepository, GameRepository>();
     }
 }
