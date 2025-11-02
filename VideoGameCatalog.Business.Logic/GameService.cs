@@ -14,22 +14,22 @@ namespace VideoGameCatalog.Business.Logic
 
         public async Task<IEnumerable<Game>> GetAllAsync()
         {
-            return await gameRepository.GetAllAsync();
+            return await gameRepository.GetAllAsync().ConfigureAwait(false);
         }
 
         public async Task<Game?> GetByIdAsync(int id)
         {
-            return await gameRepository.GetByIdAsync(id);
+            return await gameRepository.GetByIdAsync(id).ConfigureAwait(false);
         }
 
         public async Task<Game> AddAsync(Game game)
         {
-            return await gameRepository.AddAsync(game);
+            return await gameRepository.AddAsync(game).ConfigureAwait(false);
         }
 
         public async Task UpdateAsync(Game game)
         {
-            await gameRepository.UpdateAsync(game);
+            await gameRepository.UpdateAsync(game).ConfigureAwait(false);
         }
 
         public async Task DeleteAsync(int id)

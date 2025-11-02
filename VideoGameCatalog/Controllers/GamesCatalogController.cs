@@ -18,20 +18,20 @@ namespace VideoGameCatalog.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await gameService.GetAllAsync());
+            return Ok(await gameService.GetAllAsync().ConfigureAwait(false));
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var game = await gameService.GetByIdAsync(id);
+            var game = await gameService.GetByIdAsync(id).ConfigureAwait(false);
             return game == null ? NotFound() : Ok(game);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(Game game)
         {
-            var created = await gameService.AddAsync(game);
+            var created = await gameService.AddAsync(game).ConfigureAwait(false);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
@@ -39,14 +39,14 @@ namespace VideoGameCatalog.Api.Controllers
         public async Task<IActionResult> Update(int id, Game game)
         {
             if (id != game.Id) return BadRequest();
-            await gameService.UpdateAsync(game);
+            await gameService.UpdateAsync(game).ConfigureAwait(false);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await gameService.DeleteAsync(id);
+            await gameService.DeleteAsync(id).ConfigureAwait(false);
             return NoContent();
         }
     }
