@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoGameCatalog.Business",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoGameCatalog.Business.Logic", "..\VideoGameCatalog.Business.Logic\VideoGameCatalog.Business.Logic.csproj", "{CA9A7D3E-8ED5-47A2-A436-FFA78B0B203C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoGameCatalog.Repository", "..\ideoGameCatalog.Repository\VideoGameCatalog.Repository.csproj", "{C0AA3214-0348-4F06-974E-DE74B9438D11}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoGameCatalog.Repository", "..\VideoGameCatalog.Repository\VideoGameCatalog.Repository.csproj", "{C0AA3214-0348-4F06-974E-DE74B9438D11}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoGameCatalog.Repository.Tests", "..\VideoGameCatalog.Repository.Tests\VideoGameCatalog.Repository.Tests.csproj", "{06AC7BEE-E865-4FFD-B07A-B0213BBB88F2}"
 EndProject

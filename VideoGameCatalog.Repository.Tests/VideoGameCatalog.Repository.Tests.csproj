@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ideoGameCatalog.Repository\VideoGameCatalog.Repository.csproj" />
+    <ProjectReference Include="..\VideoGameCatalog.Repository\VideoGameCatalog.Repository.csproj" />
   </ItemGroup>
 
   <ItemGroup>
