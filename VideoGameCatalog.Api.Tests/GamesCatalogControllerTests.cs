@@ -48,7 +48,7 @@ namespace VideoGameCatalog.Api.Tests
         [Test]
         public async Task GetById_GameDoesNotExist_ReturnsNotFound()
         {
-            _gameServiceMock.Setup(s => s.GetByIdAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync((Game)null);
+            _gameServiceMock.Setup(s => s.GetByIdAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync((Game)null!);
 
             var result = await _controller.GetById(1, It.IsAny<CancellationToken>());
 
