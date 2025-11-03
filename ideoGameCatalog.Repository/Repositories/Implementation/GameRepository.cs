@@ -34,7 +34,7 @@ namespace VideoGameCatalog.Repository.Repositories.Implementation
 
         public async Task UpdateAsync(Game game, CancellationToken cancellationToken)
         {
-            var existingGame = await context.Game.FindAsync(game.Id).ConfigureAwait(false);
+            var existingGame = await context.Game.FindAsync(game.Id, cancellationToken).ConfigureAwait(false);
             if (existingGame == null)
                 return;
 
