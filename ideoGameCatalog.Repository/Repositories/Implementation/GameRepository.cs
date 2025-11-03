@@ -15,24 +15,24 @@ namespace VideoGameCatalog.Repository.Repositories.Implementation
             this.context = context;
         }
 
-        public async Task<IEnumerable<Game>> GetAllAsync()
+        public async Task<IEnumerable<Game>> GetAllAsync(CancellationToken cancellationToken)
         {
-           return await context.Game.ToListAsync().ConfigureAwait(false);
+           return await context.Game.ToListAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Game?> GetByIdAsync(int id)
+        public async Task<Game?> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            return await context.Game.FindAsync(id).ConfigureAwait(false);
+            return await context.Game.FindAsync(id, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Game> AddAsync(Game game)
+        public async Task<Game> AddAsync(Game game, CancellationToken cancellationToken)
         {
             context.Game.Add(game);
-            await context.SaveChangesAsync().ConfigureAwait(false);
+            await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             return game;
         }
 
-        public async Task UpdateAsync(Game game)
+        public async Task UpdateAsync(Game game, CancellationToken cancellationToken)
         {
             var existingGame = await context.Game.FindAsync(game.Id).ConfigureAwait(false);
             if (existingGame == null)
@@ -50,16 +50,16 @@ namespace VideoGameCatalog.Repository.Repositories.Implementation
             if (existingGame.ReleaseDate != game.ReleaseDate)
                 existingGame.ReleaseDate = game.ReleaseDate;
 
-            await context.SaveChangesAsync().ConfigureAwait(false);
+            await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id, CancellationToken cancellationToken)
         {
-            var game = await GetByIdAsync(id);
+            var game = await GetByIdAsync(id, cancellationToken);
             if (game != null)
             {
                 context.Game.Remove(game);
-                await context.SaveChangesAsync().ConfigureAwait(false);
+                await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             }
         }
     }

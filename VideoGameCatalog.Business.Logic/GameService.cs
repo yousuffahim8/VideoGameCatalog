@@ -12,29 +12,29 @@ namespace VideoGameCatalog.Business.Logic
             this.gameRepository = repository;
         }
 
-        public async Task<IEnumerable<Game>> GetAllAsync()
+        public async Task<IEnumerable<Game>> GetAllAsync(CancellationToken cancellationToken)
         {
-            return await gameRepository.GetAllAsync().ConfigureAwait(false);
+            return await gameRepository.GetAllAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Game?> GetByIdAsync(int id)
+        public async Task<Game?> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            return await gameRepository.GetByIdAsync(id).ConfigureAwait(false);
+            return await gameRepository.GetByIdAsync(id, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Game> AddAsync(Game game)
+        public async Task<Game> AddAsync(Game game, CancellationToken cancellationToken)
         {
-            return await gameRepository.AddAsync(game).ConfigureAwait(false);
+            return await gameRepository.AddAsync(game, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task UpdateAsync(Game game)
+        public async Task UpdateAsync(Game game, CancellationToken cancellationToken)
         {
-            await gameRepository.UpdateAsync(game).ConfigureAwait(false);
+            await gameRepository.UpdateAsync(game, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id, CancellationToken cancellationToken)
         {
-            await gameRepository.DeleteAsync(id).ConfigureAwait(false);
+            await gameRepository.DeleteAsync(id, cancellationToken).ConfigureAwait(false);
         }
     }
 }

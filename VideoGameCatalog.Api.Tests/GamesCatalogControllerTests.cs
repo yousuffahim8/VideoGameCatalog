@@ -23,9 +23,9 @@ namespace VideoGameCatalog.Api.Tests
         public async Task GetAll_ReturnsOkWithGames()
         {
             var games = new List<Game> { new Game { Id = 1, Title = "Test", Genre = "Action", Price = 10, ReleaseDate = DateTime.Now } };
-            _gameServiceMock.Setup(s => s.GetAllAsync()).ReturnsAsync(games);
+            _gameServiceMock.Setup(s => s.GetAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync(games);
 
-            var result = await _controller.GetAll();
+            var result = await _controller.GetAll(It.IsAny<CancellationToken>());
 
             Assert.That(result, Is.InstanceOf<OkObjectResult>());
             var okResult = result as OkObjectResult;
@@ -36,9 +36,9 @@ namespace VideoGameCatalog.Api.Tests
         public async Task GetById_GameExists_ReturnsOk()
         {
             var game = new Game { Id = 1, Title = "Test", Genre = "Action", Price = 10, ReleaseDate = DateTime.Now };
-            _gameServiceMock.Setup(s => s.GetByIdAsync(1)).ReturnsAsync(game);
+            _gameServiceMock.Setup(s => s.GetByIdAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(game);
 
-            var result = await _controller.GetById(1);
+            var result = await _controller.GetById(1, It.IsAny<CancellationToken>());
 
             Assert.That(result, Is.InstanceOf<OkObjectResult>());
             var okResult = result as OkObjectResult;
@@ -48,9 +48,9 @@ namespace VideoGameCatalog.Api.Tests
         [Test]
         public async Task GetById_GameDoesNotExist_ReturnsNotFound()
         {
-            _gameServiceMock.Setup(s => s.GetByIdAsync(1)).ReturnsAsync((Game)null);
+            _gameServiceMock.Setup(s => s.GetByIdAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync((Game)null);
 
-            var result = await _controller.GetById(1);
+            var result = await _controller.GetById(1, It.IsAny<CancellationToken>());
 
             Assert.IsInstanceOf<NotFoundResult>(result);
         }
@@ -59,9 +59,9 @@ namespace VideoGameCatalog.Api.Tests
         public async Task Create_ReturnsCreatedAtAction()
         {
             var game = new Game { Id = 1, Title = "Test", Genre = "Action", Price = 10, ReleaseDate = DateTime.Now };
-            _gameServiceMock.Setup(s => s.AddAsync(game)).ReturnsAsync(game);
+            _gameServiceMock.Setup(s => s.AddAsync(game, It.IsAny<CancellationToken>())).ReturnsAsync(game);
 
-            var result = await _controller.Create(game);
+            var result = await _controller.Create(game, It.IsAny<CancellationToken>());
 
             Assert.That(result, Is.InstanceOf<CreatedAtActionResult>());
             var createdResult = result as CreatedAtActionResult;
@@ -77,7 +77,7 @@ namespace VideoGameCatalog.Api.Tests
         {
             var game = new Game { Id = 2, Title = "Test", Genre = "Action", Price = 10, ReleaseDate = DateTime.Now };
 
-            var result = await _controller.Update(1, game);
+            var result = await _controller.Update(1, game, It.IsAny<CancellationToken>());
 
             Assert.That(result, Is.InstanceOf<BadRequestResult>());
         }
@@ -86,9 +86,9 @@ namespace VideoGameCatalog.Api.Tests
         public async Task Update_Valid_ReturnsNoContent()
         {
             var game = new Game { Id = 1, Title = "Test", Genre = "Action", Price = 10, ReleaseDate = DateTime.Now };
-            _gameServiceMock.Setup(s => s.UpdateAsync(game)).Returns(Task.CompletedTask);
+            _gameServiceMock.Setup(s => s.UpdateAsync(game, It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
-            var result = await _controller.Update(1, game);
+            var result = await _controller.Update(1, game, It.IsAny<CancellationToken>());
 
             Assert.That(result, Is.InstanceOf<NoContentResult>());
         }
@@ -96,9 +96,9 @@ namespace VideoGameCatalog.Api.Tests
         [Test]
         public async Task Delete_ReturnsNoContent()
         {
-            _gameServiceMock.Setup(s => s.DeleteAsync(1)).Returns(Task.CompletedTask);
+            _gameServiceMock.Setup(s => s.DeleteAsync(1, It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
-            var result = await _controller.Delete(1);
+            var result = await _controller.Delete(1, It.IsAny<CancellationToken>());
 
             Assert.That(result, Is.InstanceOf<NoContentResult>());
         }

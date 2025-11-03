@@ -25,9 +25,9 @@ namespace VideoGameCatalog.Business.Logic.Tests
                 new Game { Id = 1, Title = "Test1", Genre = "Action", Price = 10, ReleaseDate = DateTime.Now },
                 new Game { Id = 2, Title = "Test2", Genre = "RPG", Price = 20, ReleaseDate = DateTime.Now }
             };
-            _gameRepositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(games);
+            _gameRepositoryMock.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync(games);
 
-            var result = await _gameService.GetAllAsync();
+            var result = await _gameService.GetAllAsync(It.IsAny<CancellationToken>());
 
             Assert.That(result, Is.EqualTo(games));
         }
@@ -36,9 +36,9 @@ namespace VideoGameCatalog.Business.Logic.Tests
         public async Task GetByIdAsync_GameExists_ReturnsGame()
         {
             var game = new Game { Id = 1, Title = "Test", Genre = "Action", Price = 10, ReleaseDate = DateTime.Now };
-            _gameRepositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(game);
+            _gameRepositoryMock.Setup(r => r.GetByIdAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(game);
 
-            var result = await _gameService.GetByIdAsync(1);
+            var result = await _gameService.GetByIdAsync(1, It.IsAny<CancellationToken>());
 
             Assert.That(result, Is.EqualTo(game));
         }
@@ -46,9 +46,9 @@ namespace VideoGameCatalog.Business.Logic.Tests
         [Test]
         public async Task GetByIdAsync_GameDoesNotExist_ReturnsNull()
         {
-            _gameRepositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync((Game)null);
+            _gameRepositoryMock.Setup(r => r.GetByIdAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync((Game)null);
 
-            var result = await _gameService.GetByIdAsync(1);
+            var result = await _gameService.GetByIdAsync(1, It.IsAny<CancellationToken>());
 
             Assert.That(result, Is.Null);
         }
@@ -57,9 +57,9 @@ namespace VideoGameCatalog.Business.Logic.Tests
         public async Task AddAsync_AddsGame_ReturnsAddedGame()
         {
             var game = new Game { Id = 1, Title = "Test", Genre = "Action", Price = 10, ReleaseDate = DateTime.Now };
-            _gameRepositoryMock.Setup(r => r.AddAsync(game)).ReturnsAsync(game);
+            _gameRepositoryMock.Setup(r => r.AddAsync(game, It.IsAny<CancellationToken>())).ReturnsAsync(game);
 
-            var result = await _gameService.AddAsync(game);
+            var result = await _gameService.AddAsync(game, It.IsAny<CancellationToken>());
 
             Assert.That(result, Is.EqualTo(game));
         }
@@ -69,17 +69,17 @@ namespace VideoGameCatalog.Business.Logic.Tests
         {
             var game = new Game { Id = 1, Title = "Test", Genre = "Action", Price = 10, ReleaseDate = DateTime.Now };
 
-            await _gameService.UpdateAsync(game);
+            await _gameService.UpdateAsync(game, It.IsAny<CancellationToken>());
 
-            _gameRepositoryMock.Verify(r => r.UpdateAsync(game), Times.Once);
+            _gameRepositoryMock.Verify(r => r.UpdateAsync(game, It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
         public async Task DeleteAsync_DeletesGame_CallsRepository()
         {
-            await _gameService.DeleteAsync(1);
+            await _gameService.DeleteAsync(1, It.IsAny<CancellationToken>());
 
-            _gameRepositoryMock.Verify(r => r.DeleteAsync(1), Times.Once);
+            _gameRepositoryMock.Verify(r => r.DeleteAsync(1, It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }

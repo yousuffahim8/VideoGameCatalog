@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using VideoGameCatalog.Models;
 using VideoGameCatalog.Repository.DbContext;
 using VideoGameCatalog.Repository.Repositories.Implementation;
@@ -27,7 +28,7 @@ namespace VideoGameCatalog.Repository.Tests
         {
             var game = new Game { Title = "Test", Genre = "Action", Price = 10, ReleaseDate = DateTime.Now };
 
-            var result = await _repository.AddAsync(game);
+            var result = await _repository.AddAsync(game, It.IsAny<CancellationToken>());
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Title, Is.EqualTo("Test"));
@@ -41,7 +42,7 @@ namespace VideoGameCatalog.Repository.Tests
             _context.Game.Add(new Game { Title = "Test2", Genre = "RPG", Price = 20, ReleaseDate = DateTime.Now });
             await _context.SaveChangesAsync();
 
-            var result = await _repository.GetAllAsync();
+            var result = await _repository.GetAllAsync(It.IsAny<CancellationToken>());
 
             Assert.That(result.Count(), Is.EqualTo(2));
         }
@@ -53,7 +54,7 @@ namespace VideoGameCatalog.Repository.Tests
             _context.Game.Add(game);
             await _context.SaveChangesAsync();
 
-            var result = await _repository.GetByIdAsync(game.Id);
+            var result = await _repository.GetByIdAsync(game.Id, It.IsAny<CancellationToken>());
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Title, Is.EqualTo(game.Title));
@@ -62,7 +63,7 @@ namespace VideoGameCatalog.Repository.Tests
         [Test]
         public async Task GetByIdAsync_GameDoesNotExist_ReturnsNull()
         {
-            var result = await _repository.GetByIdAsync(999);
+            var result = await _repository.GetByIdAsync(999, It.IsAny<CancellationToken>());
 
             Assert.IsNull(result);
         }
@@ -75,7 +76,7 @@ namespace VideoGameCatalog.Repository.Tests
             await _context.SaveChangesAsync();
 
             game.Title = "Updated";
-            await _repository.UpdateAsync(game);
+            await _repository.UpdateAsync(game, It.IsAny<CancellationToken>());
 
             var updated = await _context.Game.FindAsync(game.Id);
             Assert.That(updated!.Title, Is.EqualTo("Updated"));
@@ -88,7 +89,7 @@ namespace VideoGameCatalog.Repository.Tests
             _context.Game.Add(game);
             await _context.SaveChangesAsync();
 
-            await _repository.DeleteAsync(game.Id);
+            await _repository.DeleteAsync(game.Id, It.IsAny<CancellationToken>());
 
             var deleted = await _context.Game.FindAsync(game.Id);
             Assert.That(deleted, Is.Null);
